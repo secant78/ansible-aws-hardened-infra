@@ -1,0 +1,44 @@
+---
+- name: Update apt cache (Ubuntu specific)
+  apt:
+    update_cache: yes
+  become: yes
+
+- name: Install security tools
+  package:
+    name:
+      - fail2ban
+      - ufw
+    state: present
+  become: yes
+
+- name: Ensure UFW allows SSH
+  ufw:
+    rule: allow
+    name: OpenSSH
+  become: yes
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny
+  become: yes
+
+- name: Download Amazon CloudWatch Agent (Ubuntu .deb)
+  get_url:
+    url: https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+    dest: /tmp/amazon-cloudwatch-agent.deb
+  become: yes
+
+- name: Install Amazon CloudWatch Agent
+  apt:
+    deb: /tmp/amazon-cloudwatch-agent.deb
+    state: present
+  become: yes
+
+- name: Ensure CloudWatch Agent is started and enabled
+  service:
+    name: amazon-cloudwatch-agent
+    state: started
+    enabled: yes
+  become: yes

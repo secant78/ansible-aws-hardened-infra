@@ -1,0 +1,25 @@
+---
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-2
+
+# Filter for your abbreviated 'sc' instances only
+filters:
+  tag:Name:
+    - sc-ansible-*
+  instance-state-name: 
+    - running
+
+# Dynamically group instances by their 'Role' tag
+keyed_groups:
+  - key: tags.Role
+    prefix: role
+    separator: "_"
+
+# Use public IPs for connection from CloudShell
+hostnames:
+  - network-interface.association.public-ip
+
+# Essential for Ubuntu-based AMIs
+compose:
+  ansible_user: ubuntu

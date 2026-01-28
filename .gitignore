@@ -1,0 +1,6 @@
+*.pem
+*.pub
+.vault_pass
+.env
+.terraform/
+*.tfstate

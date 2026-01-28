@@ -1,0 +1,18 @@
+---
+- name: Apply common configuration to all nodes
+  hosts: all
+  become: yes
+  roles:
+    - common
+
+- name: Configure Web Servers
+  hosts: role_web
+  become: yes
+  roles:
+    - webserver
+
+- name: Configure Database Servers
+  hosts: role_db
+  become: yes
+  roles:
+    - database
