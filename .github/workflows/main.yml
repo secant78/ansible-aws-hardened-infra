@@ -1,0 +1,47 @@
+name: Ansible Deployment Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Ansible and Dependencies
+        run: |
+          pip install ansible boto3 botocore
+          ansible-galaxy collection install amazon.aws
+
+      - name: Set up SSH Key and Vault Pass
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/sc-prod-key.pem
+          chmod 400 ~/.ssh/sc-prod-key.pem
+          echo "${{ secrets.VAULT_PASSWORD }}" > .vault_pass
+
+      - name: Execute Playbook
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
+        run: |
+          ansible-playbook site.yml \
+            -i inventory/aws_ec2.yml \
+            --vault-password-file .vault_pass \
+            --private-key ~/.ssh/sc-prod-key.pem \
+            -u ubuntu
