@@ -55,7 +55,7 @@ Molecule: Initialized Molecule testing structure within roles/common/molecule/ t
 
 CI/CD: Integrated with GitHub Actions for automated playbook execution and syntax validation on every push.
 
-## 📁 Directory Structure
+### 📁 Directory Structure
 
 ```text
 ansible-assignment/
