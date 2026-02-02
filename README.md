@@ -55,8 +55,9 @@ Molecule: Initialized Molecule testing structure within roles/common/molecule/ t
 
 CI/CD: Integrated with GitHub Actions for automated playbook execution and syntax validation on every push.
 
-📁 Directory Structure
+📁 ## Directory Structure
 
+```text
 ansible-assignment/
 ├── group_vars/
 │   ├── all.yml
@@ -71,6 +72,7 @@ ansible-assignment/
 ├── custom_inventory.py
 ├── aws_ec2.yml
 └── site.yml
+```
 
 ### 📍 Final Submission Step
 1.  **Save** this content as `README.md` in your project root.
