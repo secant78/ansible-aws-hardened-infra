@@ -46,6 +46,8 @@ PLAY RECAP *********************************************************************
 18.216.30.160              : ok=12   changed=0    unreachable=0    failed=0    
 3.14.250.155               : ok=12   changed=0    unreachable=0    failed=0
 
+```
+
 (Note: changed=0 on subsequent runs confirms system idempotency.)
 
 🧪 Testing & Deliverables
