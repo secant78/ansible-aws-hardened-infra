@@ -4,3 +4,8 @@
     name: nginx
     state: present
     update_cache: yes
+
+- name: Allow HTTP and HTTPS traffic
+  community.general.ufw:
+    rule: allow
+    name: 'Nginx Full'
