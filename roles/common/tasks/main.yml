@@ -42,3 +42,13 @@
     state: started
     enabled: yes
   become: yes
+
+- name: Deploy CloudWatch Agent config
+  template:
+    src: amazon-cloudwatch-agent.json.j2
+    dest: /opt/aws/amazon-cloudwatch-agent/bin/config.json
+  become: yes
+
+- name: Start CloudWatch Agent with configuration
+  shell: /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json
+  become: yes
